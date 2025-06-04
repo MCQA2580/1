@@ -212,7 +212,7 @@
             const videoId = document.getElementById('videoIdInput').value;
             if (!videoId) return layer.msg('请输入视频ID', { icon: 0 });
             var loadIndex = layer.load(0); // 显示加载提示
-            fetch(`http://tucdn.wpon.cn/api-girl/`)
+            fetch(`https://v.api.aa1.cn/api/api-girl-11-02/index.php?type=json`)
                 .then(response => response.json())
                 .then(data => {
                     layer.close(loadIndex); // 关闭加载提示
@@ -233,7 +233,7 @@
             let retryCount = 0;
             function fetchVideo() {
                 var loadIndex = layer.load(0); // 显示加载提示
-                fetch('http://tucdn.wpon.cn/api-girl/')
+                fetch('https://v.api.aa1.cn/api/api-girl-11-02/index.php?type=json')
                     .then(response => response.json())
                     .then(data => {
                         layer.close(loadIndex); // 关闭加载提示
