@@ -1,0 +1,9 @@
+{
+  "name": "2",
+  "main": "src/index.js",
+  "compatibility_date": "2025-06-05",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS"
+  }
+}
