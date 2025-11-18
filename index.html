@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -6,136 +7,166 @@
     <meta http-equiv="Cache-Control" content="no-transform, no-siteapp">
     <meta name="referrer" content="never">
     <meta name="renderer" content="webkit">
-    <!-- 核心：移动端viewport适配，禁止缩放 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>随机视频_双端适配版</title>
+    <title>随机视频_美化版</title>
+    <!-- 引入图标库（用于收藏图标，提升美观度） -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="./assets/style.css">
     <style>
-        /* 全局样式重置：消除默认边距，统一盒模型 */
+        /* 1. 背景美化：深色渐变+低透明度纹理，不干扰视频 */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
         body {
-            background: #1a1a1a; /* 深色背景提升视频对比度 */
-            min-height: 100vh; /* 让body占满屏幕高度，方便居中 */
-            padding: 15px;
+            /* 渐变背景：从深灰蓝到纯黑，适配不同光线下的视觉体验 */
+            background: linear-gradient(135deg, #121a29 0%, #0a0e17 100%);
+            /* 轻微纹理：增加背景质感，避免单调（可替换为自己的纹理图） */
+            background-image: url("https://picsum.photos/id/1015/1920/1080");
+            background-blend-mode: overlay;
+            background-size: cover;
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 20px 15px;
         }
 
-        /* 核心：视频容器 - 实现垂直+水平双居中 */
+        /* 2. 收藏功能区：上移+居中，独立于控件区 */
+        .favorite-section {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .favorite-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 24px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 30px; /* 圆角更柔和 */
+            color: #fff;
+            font-size: 16px;
+            text-decoration: none;
+            transition: all 0.3s;
+            backdrop-filter: blur(8px); /* 毛玻璃效果，提升质感 */
+        }
+        .favorite-btn:hover {
+            background: rgba(255,255,255,0.15);
+            border-color: rgba(255,255,255,0.3);
+            transform: translateY(-2px); /* hover轻微上浮，增加交互感 */
+        }
+        .favorite-btn i {
+            font-size: 18px;
+            color: #ffd700; /* 收藏图标用金色，更醒目 */
+        }
+
+        /* 3. 视频容器：保持垂直+水平居中，增加顶部间距（适配收藏区） */
         .video-container {
             display: flex;
             flex-direction: column;
-            align-items: center; /* 水平居中 */
-            justify-content: center; /* 垂直居中 */
-            min-height: calc(100vh - 120px); /* 预留控件区域高度 */
-            margin-bottom: 25px;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 200px); /* 预留收藏区+控件区高度 */
+            margin-bottom: 30px;
         }
-
-        /* 视频样式：响应式缩放，不超出屏幕 */
         #player {
             width: 100%;
-            max-width: 1200px; /* 电脑端最大宽度，避免过宽 */
-            max-height: 80vh; /* 电脑端最大高度，避免过窄 */
-            border-radius: 8px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5); /* 阴影增强层次感 */
-            object-fit: contain; /* 保证视频比例不拉伸 */
+            max-width: 1200px;
+            max-height: 70vh;
+            border-radius: 12px; /* 圆角加大，更现代 */
+            box-shadow: 0 0 30px rgba(0,0,0,0.4);
+            object-fit: contain;
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* 加载提示：与视频同宽居中 */
+        /* 加载提示：与视频同宽居中，样式适配背景 */
         .loading {
-            color: #fff;
+            color: #e0e0e0;
             font-size: 18px;
             margin-bottom: 15px;
             text-align: center;
             width: 100%;
             max-width: 1200px;
+            text-shadow: 0 0 5px rgba(0,0,0,0.5); /* 文字加阴影，避免被背景覆盖 */
         }
 
-        /* 控件容器：基础样式 */
+        /* 4. 控件区：按钮全端对齐（电脑端均匀分布，手机端居中） */
         .control-buttons {
             width: 100%;
-            max-width: 1200px;
+            max-width: 800px; /* 控件区最大宽度，避免电脑端按钮过散 */
             margin: 0 auto;
             display: flex;
-            flex-wrap: wrap; /* 允许换行，适配手机 */
-            gap: 12px;
             align-items: center;
+            gap: 15px;
         }
-
-        /* 按钮基础样式 */
+        /* 核心：按钮均匀对齐 - 用flex:1让按钮平分宽度 */
         .control-btn {
-            padding: 12px 24px;
+            flex: 1; /* 电脑端按钮自动平分控件区宽度，实现对齐 */
+            min-width: 140px; /* 避免手机端按钮过窄 */
+            padding: 12px 0; /* 垂直内边距统一，保证按钮高度一致 */
+            background: rgba(37, 99, 235, 0.8);
             border: none;
-            border-radius: 6px;
-            background: #2563eb;
+            border-radius: 8px;
             color: #fff;
             font-size: 16px;
             cursor: pointer;
             transition: background 0.3s;
-            flex: 1; /* 让按钮自适应宽度 */
-            min-width: 120px; /* 手机端按钮不致过窄 */
+            text-align: center; /* 按钮文字居中，避免偏移 */
         }
         .control-btn:hover {
-            background: #1d4ed8;
+            background: rgba(29, 78, 216, 0.9);
         }
-
-        /* 收藏链接样式 */
-        .favorite-link {
-            color: #93c5fd;
-            text-decoration: none;
-            font-size: 16px;
-            flex: 1;
-            min-width: 120px;
-            text-align: center;
-            padding: 12px 0;
-        }
-        .favorite-link:hover {
-            color: #bfdbfe;
-            text-decoration: underline;
-        }
-
-        /* 状态提示：靠右显示 */
+        /* 状态提示：固定靠右，与按钮区对齐 */
         .play-status {
             color: #d1d5db;
             font-size: 14px;
-            margin-left: auto;
-            padding: 0 12px;
+            margin-left: 15px;
+            white-space: nowrap; /* 避免状态文字换行，保持对齐 */
         }
 
-        /* 媒体查询：手机端（768px以下）专项优化 */
+        /* 5. 手机端适配（768px以下）：按钮居中+收藏区适配 */
         @media (max-width: 768px) {
+            .favorite-btn {
+                padding: 12px 30px;
+                font-size: 17px;
+                width: 80%; /* 手机端收藏按钮占80%宽度，更易点击 */
+                max-width: 300px;
+            }
             .video-container {
-                min-height: calc(100vh - 200px); /* 预留更多控件高度 */
+                min-height: calc(100vh - 220px);
             }
-
             .control-buttons {
-                flex-direction: column; /* 控件垂直排列，避免拥挤 */
-                gap: 10px;
+                flex-wrap: wrap; /* 按钮可换行，避免拥挤 */
+                justify-content: center; /* 手机端按钮整体居中 */
+                max-width: 90%;
             }
-
-            .control-btn, .favorite-link {
-                width: 100%; /* 按钮占满屏幕宽度，方便触控 */
+            .control-btn {
+                width: 100%; /* 手机端按钮占满宽度，方便触控 */
                 min-width: auto;
-                padding: 15px 0; /* 增大点击区域 */
-                font-size: 18px; /* 字体放大，便于查看 */
+                padding: 15px 0;
+                font-size: 17px;
             }
-
             .play-status {
                 margin-left: 0;
-                margin-top: 10px;
+                margin-top: 12px;
                 font-size: 16px;
-            }
-
-            .loading {
-                font-size: 20px; /* 加载提示放大 */
+                width: 100%;
+                text-align: center; /* 手机端状态提示居中 */
             }
         }
     </style>
 </head>
 <body>
-    <!-- 视频容器：核心居中容器 -->
+    <!-- 收藏功能区：上移至视频上方，独立居中 -->
+    <div class="favorite-section">
+        <a href="/" class="favorite-btn">
+            <i class="fa fa-star"></i> <!-- 收藏图标（来自Font Awesome） -->
+            <span>我的收藏夹</span>
+        </a>
+    </div>
+
+    <!-- 视频容器：保持居中 -->
     <div class="video-container">
         <div class="loading" id="loadingTip" style="display: none;">视频加载中，请稍候...</div>
         <video 
@@ -148,20 +179,16 @@
         ></video>
     </div>
 
-    <!-- 控件区域：双端自适应布局 -->
+    <!-- 控件区：按钮对齐优化 -->
     <div class="control-buttons">
         <button class="control-btn" id="switch">连续播放: 开</button>
         <button class="control-btn" id="next">播放下一个</button>
-        <a href="/" class="favorite-link">我的收藏夹</a>
         <span class="play-status" id="playStatus">就绪</span>
     </div>
 
     <script>
     (function (window, document) {
-        // 防嵌套：确保页面独立运行
-        if (top !== self) {
-            window.top.location.replace(self.location.href);
-        }
+        if (top !== self) window.top.location.replace(self.location.href);
 
         // 工具函数
         const getEl = (id) => document.getElementById(id);
@@ -174,59 +201,52 @@
         const playStatus = getEl('playStatus');
         const switchBtn = getEl('switch');
 
-        // 核心：加载随机视频（带状态反馈）
+        // 核心：加载随机视频
         const loadRandomVideo = () => {
             loadingTip.style.display = 'block';
             player.style.display = 'none';
             playStatus.textContent = '加载中...';
 
-            // 防缓存随机视频源
             player.src = `http://v.nrzj.vip/video.php?_t=${Math.random()}`;
 
-            // 加载成功回调
+            // 加载成功
             player.onloadedmetadata = () => {
                 loadingTip.style.display = 'none';
                 player.style.display = 'block';
                 playStatus.textContent = '播放中';
-                player.play().catch(err => {
-                    // 处理自动播放被浏览器拦截的情况（手机端常见）
-                    playStatus.textContent = '请点击播放';
+                // 处理手机端自动播放拦截
+                player.play().catch(() => {
+                    playStatus.textContent = '请点击视频播放';
                 });
             };
 
-            // 加载失败回调
+            // 加载失败重试
             player.onerror = () => {
-                playStatus.textContent = '加载失败，重试中...';
-                setTimeout(loadRandomVideo, 1500); // 延迟重试，减少无效请求
+                playStatus.textContent = '加载失败，1秒后重试...';
+                setTimeout(loadRandomVideo, 1000);
             };
         };
 
-        // 事件绑定：双端适配交互
+        // 事件绑定
         bindEvt(getEl('next'), 'click', loadRandomVideo);
-
-        // 连续播放切换
         bindEvt(switchBtn, 'click', () => {
             isAutoPlay = !isAutoPlay;
             switchBtn.textContent = `连续播放: ${isAutoPlay ? '开' : '关'}`;
             playStatus.textContent = isAutoPlay ? '已开启连续播放' : '已关闭连续播放';
         });
-
-        // 视频播放结束
         bindEvt(player, 'ended', () => {
             playStatus.textContent = '播放结束';
-            if (isAutoPlay) setTimeout(loadRandomVideo, 800);
+            isAutoPlay && setTimeout(loadRandomVideo, 800);
         });
-
-        // 播放/暂停状态反馈
         bindEvt(player, 'play', () => playStatus.textContent = '播放中');
         bindEvt(player, 'pause', () => playStatus.textContent = '已暂停');
 
-        // 初始化：检测是否有视频源，无则加载
+        // 初始化加载
         if (!player.src) loadRandomVideo();
     })(window, document);
     </script>
 
-    <!-- 百度统计脚本 -->
+    <!-- 百度统计 -->
     <script>
         var _hmt = _hmt || [];
         (function() {
