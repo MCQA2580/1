@@ -34,7 +34,7 @@ jobs:
         shell: pwsh
         run: |
           Write-Host "Running update script..."
-          .\update_viewer.ps1
+          .\deploy\update_image_viewer.ps1
 
       - name: Check for changes
         shell: pwsh
