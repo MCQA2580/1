@@ -151,19 +151,19 @@ const htmlContent = `<!DOCTYPE html>
                 <h3>📁 图片信息</h3>
                 <p>• 部署方式: Cloudflare Workers</p>
                 <p>• 功能: 查看和管理下载的图片</p>
-                <p>• 注意: 由于Workers大小限制，只包含示例图片</p>
+                <p>• 图片数量: 237 张（持续更新）</p>
             </div>
             
             <div class="image-box">
                 <div id="image-container">
-                    <p>点击下方按钮查看示例图片</p>
-                    <small>或访问原始存储位置查看所有图片</small>
+                    <p>点击下方按钮查看随机图片</p>
+                    <small>所有图片均以数字格式命名</small>
                 </div>
             </div>
             
             <div class="buttons">
-                <button id="view-btn">👁️ 查看示例图片</button>
-                <button id="folder-btn">📂 打开原始存储</button>
+                <button id="view-btn">👁️ 查看随机图片</button>
+                <button id="folder-btn">📂 打开图片文件夹</button>
             </div>
         </div>
     </main>
@@ -176,13 +176,13 @@ const htmlContent = `<!DOCTYPE html>
         // 当前图片总数（包括后面新加的）
         const totalImages = 237; // 初始图片数，后续可手动更新
         
-        // 查看示例图片
+        // 查看随机图片
         document.getElementById('view-btn').addEventListener('click', function() {
             const randomIndex = Math.floor(Math.random() * totalImages) + 1;
             const randomImage = 'https://raw.githubusercontent.com/MCQA2580/1/main/downloaded_images/' + randomIndex + '.jpg';
             
             const container = document.getElementById('image-container');
-            container.innerHTML = '<img id="image" src="' + randomImage + '" alt="示例图片"><p style="margin-top: 10px; font-size: 0.9rem; color: #666;">示例图片 ' + randomIndex + ' (共 ' + totalImages + ' 张)</p>';
+            container.innerHTML = '<img id="image" src="' + randomImage + '" alt="随机图片"><p style="margin-top: 10px; font-size: 0.9rem; color: #666;">图片 ' + randomIndex + ' (共 ' + totalImages + ' 张)</p>';
 
         });
         
@@ -202,28 +202,26 @@ const htmlContent = `<!DOCTYPE html>
 </html>`;
 
 // 处理请求
-addEventListener('fetch', event => {
-  event.respondWith(handleRequest(event.request));
-});
-
-async function handleRequest(request) {
-  const url = new URL(request.url);
-  const path = url.pathname;
-  
-  // 处理根路径请求
-  if (path === '/' || path === '/index.html') {
-    return new Response(htmlContent, {
+export default {
+  async fetch(request) {
+    const url = new URL(request.url);
+    const path = url.pathname;
+    
+    // 处理根路径请求
+    if (path === '/' || path === '/index.html') {
+      return new Response(htmlContent, {
+        headers: {
+          'Content-Type': 'text/html; charset=UTF-8',
+        },
+      });
+    }
+    
+    // 处理其他路径
+    return new Response('Not found', {
+      status: 404,
       headers: {
-        'Content-Type': 'text/html; charset=UTF-8',
+        'Content-Type': 'text/plain',
       },
     });
   }
-  
-  // 处理其他路径
-  return new Response('Not found', {
-    status: 404,
-    headers: {
-      'Content-Type': 'text/plain',
-    },
-  });
-}
+};
