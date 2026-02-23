@@ -1,0 +1,11 @@
+# Cloudflare Pages HTTP 头配置
+
+/*
+  Content-Type: text/html; charset=UTF-8
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  X-XSS-Protection: 1; mode=block
+
+/downloaded_images/*
+  Content-Type: image/jpeg
+  Cache-Control: public, max-age=31536000, immutable

@@ -36,6 +36,13 @@ jobs:
           Write-Host "Running update script..."
           .\deploy\update_image_viewer.ps1
 
+      - name: Update public directory
+        shell: pwsh
+        run: |
+          Write-Host "Updating public directory..."
+          Copy-Item -Path simple_image_viewer.html -Destination public\index.html -Force
+          Copy-Item -Path downloaded_images -Destination public\downloaded_images -Recurse -Force
+
       - name: Check for changes
         shell: pwsh
         run: |
@@ -45,6 +52,8 @@ jobs:
         uses: EndBug/add-and-commit@v9
         with:
           message: 'Automatically update image viewer samples'
-          add: 'simple_image_viewer.html'
+          add: |
+            simple_image_viewer.html
+            public/
           committer_name: 'GitHub Actions'
           committer_email: 'actions@github.com'
