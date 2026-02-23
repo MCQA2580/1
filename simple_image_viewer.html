@@ -183,7 +183,7 @@
         document.getElementById('view-btn').addEventListener('click', function() {
             const randomIndex = Math.floor(Math.random() * sampleImages.length);
             const randomImage = sampleImages[randomIndex];
-            const imageUrl = `downloaded_images/${randomImage}`;
+            const imageUrl = `https://raw.githubusercontent.com/MCQA2580/1/main/public/downloaded_images/${randomImage}`;
             
             const container = document.getElementById('image-container');
             container.innerHTML = `
@@ -198,7 +198,7 @@
         
         // 打开图片文件夹
         document.getElementById('folder-btn').addEventListener('click', function() {
-            window.open('downloaded_images', '_blank');
+            window.open('https://github.com/MCQA2580/1/tree/main/public/downloaded_images', '_blank');
             console.log('打开图片文件夹');
         });
         
