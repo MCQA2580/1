@@ -57,3 +57,11 @@ jobs:
             public/
           committer_name: 'GitHub Actions'
           committer_email: 'actions@github.com'
+
+      - name: Deploy to Cloudflare Workers
+        shell: pwsh
+        working-directory: ./deploy
+        run: |
+          Write-Host "Deploying to Cloudflare Workers..."
+          npm install
+          npm run deploy
