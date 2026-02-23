@@ -1,0 +1,22 @@
+{
+  "name": "image-viewer-worker",
+  "version": "1.0.0",
+  "description": "Cloudflare Workers 图片查看器",
+  "main": "worker.js",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "build": "echo 'No build step needed'"
+  },
+  "keywords": [
+    "cloudflare",
+    "workers",
+    "image",
+    "viewer"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  }
+}
