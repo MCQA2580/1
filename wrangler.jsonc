@@ -1,0 +1,10 @@
+{
+  "name": "image-viewer",
+  "compatibility_date": "2026-02-23",
+  "main": "./deploy/worker.js",
+  "workers_dev": true,
+  "send_metrics": false,
+  "build": {
+    "command": "echo 'No build needed'"
+  }
+}
