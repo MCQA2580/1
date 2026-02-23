@@ -5,122 +5,643 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>简单图片查看器</title>
     <style>
+        /* 全局样式重置 */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
+        /* 变量定义 */
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --accent-color: #f39c12;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+            --gray-color: #95a5a6;
+            --white-color: #ffffff;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 8px rgba(0,0,0,0.1);
+            --shadow-lg: 0 8px 16px rgba(0,0,0,0.1);
+            --border-radius-sm: 5px;
+            --border-radius-md: 10px;
+            --border-radius-lg: 15px;
+            --transition: all 0.3s ease;
+        }
+
+        /* 基础样式 */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark-color);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            line-height: 1.6;
         }
+
+        /* 头部样式 */
         header {
-            background-color: #3498db;
-            color: white;
-            padding: 20px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, #2980b9 100%);
+            color: var(--white-color);
+            padding: 3rem 1rem;
             text-align: center;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
         }
-        h1 {
-            font-size: 2rem;
-            margin-bottom: 10px;
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="25" cy="25" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="25" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="25" cy="75" r="2" fill="rgba(255,255,255,0.1)"/></svg>');
+            animation: float 20s linear infinite;
         }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(180deg); }
+            100% { transform: translateY(0) rotate(360deg); }
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 15s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.1); opacity: 0.6; }
+        }
+
+        header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.8rem;
+            font-weight: 700;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 1;
+            animation: slideInDown 1s ease-out;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+            animation: slideInUp 1s ease-out 0.2s both;
+        }
+
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 主内容区 */
         main {
             flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 3rem 1rem;
+            position: relative;
         }
+
+        main::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="1" fill="rgba(52,152,219,0.05)"/></svg>');
+            pointer-events: none;
+        }
+
         .container {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            padding: 20px;
-            max-width: 800px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius-lg);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 2.8rem;
+            max-width: 850px;
             width: 100%;
             text-align: center;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: fadeInUp 1s ease-out 0.4s both;
         }
-        .image-box {
-            margin: 20px 0;
-            min-height: 400px;
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .container:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            background: rgba(255, 255, 255, 0.98);
+        }
+
+        /* 信息卡片 */
+        .info {
+            background: linear-gradient(135deg, rgba(248,249,250,0.9) 0%, rgba(233,236,239,0.9) 100%);
+            border-radius: var(--border-radius-md);
+            padding: 1.8rem;
+            margin-bottom: 2.5rem;
+            border-left: 4px solid var(--primary-color);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+
+        .info:hover::before {
+            transform: scaleX(1);
+        }
+
+        .info:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        }
+
+        .info h3 {
+            color: var(--primary-color);
+            margin-bottom: 1.2rem;
+            font-size: 1.4rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 2px dashed #ccc;
-            border-radius: 5px;
-            background-color: #f9f9f9;
+            gap: 0.5rem;
+            font-weight: 700;
         }
+
+        .info p {
+            margin: 0.6rem 0;
+            font-size: 1.05rem;
+            color: var(--dark-color);
+            transition: var(--transition);
+        }
+
+        .info p:hover {
+            color: var(--primary-color);
+            transform: translateX(5px);
+        }
+
+        .info strong {
+            color: var(--primary-color);
+            font-weight: 600;
+            position: relative;
+        }
+
+        .info strong::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary-color);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+
+        .info p:hover strong::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        /* 图片容器 */
+        .image-box {
+            background: linear-gradient(135deg, rgba(250,251,252,0.9) 0%, rgba(244,247,249,0.9) 100%);
+            border: 2px dashed var(--gray-color);
+            border-radius: var(--border-radius-lg);
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2.5rem;
+            position: relative;
+            transition: var(--transition);
+            overflow: hidden;
+        }
+
+        .image-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(52,152,219,0.05) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .image-box:hover {
+            border-color: var(--primary-color);
+            background: linear-gradient(135deg, rgba(248,249,250,0.95) 0%, rgba(227,242,253,0.95) 100%);
+            box-shadow: 0 8px 25px rgba(52,152,219,0.1);
+            border-style: solid;
+        }
+
+        .image-box:hover::before {
+            opacity: 1;
+        }
+
+        #image-container {
+            padding: 2rem;
+            text-align: center;
+        }
+
+        #image-container p {
+            font-size: 1.1rem;
+            color: var(--gray-color);
+            margin-bottom: 0.5rem;
+        }
+
+        #image-container small {
+            color: var(--gray-color);
+            font-size: 0.9rem;
+        }
+
+        /* 图片样式 */
         #image {
             max-width: 100%;
             max-height: 500px;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            border: 3px solid var(--white-color);
         }
-        .info {
-            margin: 20px 0;
-            padding: 15px;
-            background-color: #f8f9fa;
-            border-radius: 5px;
-            font-size: 0.9rem;
-            color: #666;
+
+        #image:hover {
+            transform: scale(1.02);
+            box-shadow: var(--shadow-lg);
         }
+
+        /* 按钮样式 */
         .buttons {
-            margin: 20px 0;
             display: flex;
-            gap: 10px;
+            gap: 1.5rem;
             flex-wrap: wrap;
             justify-content: center;
+            margin-bottom: 1.5rem;
         }
+
         button {
-            padding: 10px 20px;
+            padding: 1.2rem 2.5rem;
             border: none;
-            border-radius: 5px;
-            font-size: 1rem;
-            font-weight: bold;
+            border-radius: var(--border-radius-md);
+            font-size: 1.1rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            min-width: 200px;
         }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: 0.6s;
+            z-index: -1;
+        }
+
+        button:hover::before {
+            left: 100%;
+        }
+
+        button::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255,255,255,0.3);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+            z-index: -1;
+        }
+
+        button:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
         #view-btn {
-            background-color: #3498db;
-            color: white;
+            background: linear-gradient(135deg, var(--primary-color) 0%, #2980b9 100%);
+            color: var(--white-color);
+            animation: buttonSlideIn 1s ease-out 0.6s both;
         }
+
         #view-btn:hover {
-            background-color: #2980b9;
-            transform: translateY(-2px);
+            background: linear-gradient(135deg, #2980b9 0%, var(--primary-color) 100%);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
         }
+
+        #view-btn:active {
+            transform: translateY(-2px) scale(0.98);
+        }
+
         #folder-btn {
-            background-color: #2ecc71;
-            color: white;
+            background: linear-gradient(135deg, var(--secondary-color) 0%, #27ae60 100%);
+            color: var(--white-color);
+            animation: buttonSlideIn 1s ease-out 0.8s both;
         }
+
         #folder-btn:hover {
-            background-color: #27ae60;
+            background: linear-gradient(135deg, #27ae60 0%, var(--secondary-color) 100%);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+        }
+
+        #folder-btn:active {
+            transform: translateY(-2px) scale(0.98);
+        }
+
+        @keyframes buttonSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* 按钮图标动画 */
+        button span:first-child {
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        button:hover span:first-child {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        /* 页脚样式 */
+        footer {
+            background: linear-gradient(135deg, var(--dark-color) 0%, #34495e 100%);
+            color: var(--white-color);
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-top: auto;
+            border-top: 4px solid var(--primary-color);
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/></svg>');
+            opacity: 0.3;
+        }
+
+        footer::after {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: -100%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(52,152,219,0.1) 0%, transparent 70%);
+            animation: footerPulse 20s ease-in-out infinite;
+        }
+
+        @keyframes footerPulse {
+            0%, 100% { transform: scale(1); opacity: 0.2; }
+            50% { transform: scale(1.2); opacity: 0.5; }
+        }
+
+        footer:hover {
+            background: linear-gradient(135deg, #34495e 0%, var(--dark-color) 100%);
+            border-top-color: var(--accent-color);
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 1rem;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+            transition: var(--transition);
+        }
+
+        footer p:hover {
+            opacity: 1;
             transform: translateY(-2px);
         }
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 15px;
-            margin-top: auto;
-        }
-        a {
-            color: #3498db;
+
+        footer a {
+            color: var(--primary-color);
             text-decoration: none;
-            font-weight: bold;
+            font-weight: 600;
+            transition: var(--transition);
+            position: relative;
+            z-index: 1;
         }
-        a:hover {
-            text-decoration: underline;
+
+        footer a::before {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent-color);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+
+        footer a:hover {
+            color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        footer a:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        /* 加载动画 */
+        .loading {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(52, 152, 219, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            .container {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+
+            .image-box {
+                min-height: 350px;
+            }
+
+            .buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            button {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+
+            .info h3 {
+                font-size: 1.1rem;
+            }
+
+            .info p {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .image-box {
+                min-height: 300px;
+            }
+
+            #image-container {
+                padding: 1rem;
+            }
+
+            .info {
+                padding: 1rem;
+            }
+        }
+
+        /* 图片加载提示 */
+        .image-loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            padding: 2rem;
+        }
+
+        .image-loading p {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        /* 成功动画 */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>简单图片查看器</h1>
-        <p>查看 downloaded_images 文件夹中的图片</p>
+        <h1>🎨 简单图片查看器</h1>
+        <p>探索千张精美图片，发现无限可能</p>
     </header>
     
     <main>
@@ -130,40 +651,149 @@
                 <p>• 文件夹：<strong>downloaded_images</strong></p>
                 <p>• 图片数量：<strong>1000</strong> 张</p>
                 <p>• 文件格式：<strong>JPG</strong></p>
+                <p>• 命名格式：<strong>1.jpg - 1000.jpg</strong></p>
             </div>
             
             <div class="image-box">
                 <div id="image-container">
-                    <p>点击下方按钮查看图片</p>
-                    <small>或直接打开文件夹查看所有图片</small>
+                    <p>点击下方按钮开始探索</p>
+                    <small>每一次点击都会带给你惊喜</small>
                 </div>
             </div>
             
             <div class="buttons">
-                <button id="view-btn">👁️ 查看随机图片</button>
-                <button id="folder-btn">📂 打开图片文件夹</button>
+                <button id="view-btn">
+                    <span>👁️</span>
+                    <span>查看随机图片</span>
+                </button>
+                <button id="folder-btn">
+                    <span>📂</span>
+                    <span>浏览全部图片</span>
+                </button>
             </div>
         </div>
     </main>
     
     <footer>
-        <p>© 2026 简单图片查看器 | <a href="https://github.com/MCQA2580/1/tree/main/downloaded_images" target="_blank">打开 downloaded_images 文件夹</a></p>
+        <p>© 2026 简单图片查看器 | <a href="https://github.com/MCQA2580/1/tree/main/downloaded_images" target="_blank">浏览完整图片集</a></p>
     </footer>
     
     <script>
         // 当前图片总数
         const totalImages = 1000;
+        // 已查看图片集合
+        const viewedImages = new Set();
+        // 加载超时时间（毫秒）
+        const LOAD_TIMEOUT = 10000;
         
+        // 查看随机图片
         document.getElementById('view-btn').addEventListener('click', function() {
             const randomIndex = Math.floor(Math.random() * totalImages) + 1;
             const randomImage = randomIndex + '.jpg';
             const imageUrl = 'https://raw.githubusercontent.com/MCQA2580/1/main/downloaded_images/' + randomImage;
             
-            document.getElementById('image-container').innerHTML = '<img id="image" src="' + imageUrl + '" alt="随机图片"><p style="margin-top: 10px; font-size: 0.9rem; color: #666;">图片 ' + randomImage + ' (共 ' + totalImages + ' 张)</p>';
+            // 显示加载状态
+            const container = document.getElementById('image-container');
+            container.innerHTML = `
+                <div class="image-loading">
+                    <div class="loading"></div>
+                    <p>图片加载中...</p>
+                    <small>正在获取精彩内容...</small>
+                </div>
+            `;
+            
+            // 创建图片元素
+            const img = new Image();
+            img.id = 'image';
+            img.src = imageUrl;
+            img.alt = '随机图片';
+            
+            // 设置加载超时
+            const timeoutId = setTimeout(() => {
+                if (!img.complete) {
+                    container.innerHTML = `
+                        <div class="fade-in">
+                            <p style="color: #e74c3c; font-weight: 600;">⏰ 图片加载超时</p>
+                            <p style="color: #666; margin-top: 0.5rem;">网络可能较慢，请稍后重试</p>
+                        </div>
+                    `;
+                }
+            }, LOAD_TIMEOUT);
+            
+            img.onload = function() {
+                clearTimeout(timeoutId);
+                // 图片加载完成
+                viewedImages.add(randomIndex);
+                container.innerHTML = `
+                    <div class="fade-in">
+                        <img id="image" src="${imageUrl}" alt="随机图片">
+                        <p style="margin-top: 1rem; font-size: 1rem; color: #666; font-weight: 500;">
+                            图片 ${randomImage} <span style="opacity: 0.7;">(共 ${totalImages} 张)</span>
+                        </p>
+                        <p style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--primary-color);">
+                            已探索 ${viewedImages.size} 张不同图片
+                        </p>
+                    </div>
+                `;
+            };
+            
+            img.onerror = function() {
+                clearTimeout(timeoutId);
+                // 图片加载失败
+                container.innerHTML = `
+                    <div class="fade-in">
+                        <p style="color: #e74c3c; font-weight: 600;">😞 图片加载失败</p>
+                        <p style="color: #666; margin-top: 0.5rem;">请点击按钮重试</p>
+                    </div>
+                `;
+            };
         });
         
+        // 打开图片文件夹
         document.getElementById('folder-btn').addEventListener('click', function() {
             window.open('https://github.com/MCQA2580/1/tree/main/downloaded_images', '_blank');
+        });
+        
+        // 键盘快捷键
+        document.addEventListener('keydown', function(e) {
+            // 空格键或Enter键：查看随机图片
+            if (e.code === 'Space' || e.code === 'Enter') {
+                e.preventDefault();
+                document.getElementById('view-btn').click();
+            }
+            // F键：打开文件夹
+            if (e.code === 'KeyF') {
+                e.preventDefault();
+                document.getElementById('folder-btn').click();
+            }
+        });
+        
+        // 页面加载完成动画
+        window.addEventListener('load', function() {
+            document.querySelector('.container').classList.add('fade-in');
+            
+            // 显示欢迎信息
+            setTimeout(() => {
+                const container = document.getElementById('image-container');
+                container.innerHTML = `
+                    <div class="fade-in">
+                        <p style="font-size: 1.2rem; color: var(--primary-color); font-weight: 600;">🎉 欢迎使用简单图片查看器</p>
+                        <p style="margin-top: 1rem; color: #666;">点击下方按钮开始探索千张精美图片</p>
+                        <p style="margin-top: 0.5rem; color: #999; font-size: 0.9rem;">或按空格键快速查看</p>
+                    </div>
+                `;
+            }, 1000);
+        });
+        
+        // 添加页面滚动动画
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('header');
+            const speed = scrolled * 0.5;
+            
+            if (parallax) {
+                parallax.style.transform = `translateY(${speed}px)`;
+            }
         });
     </script>
 </body>
