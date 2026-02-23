@@ -128,7 +128,7 @@
             <div class="info">
                 <h3>📁 图片文件夹信息</h3>
                 <p>• 文件夹：<strong>downloaded_images</strong></p>
-                <p>• 图片数量：<strong>237</strong> 张</p>
+                <p>• 图片数量：<strong>1000</strong> 张</p>
                 <p>• 文件格式：<strong>JPG</strong></p>
             </div>
             
@@ -140,7 +140,7 @@
             </div>
             
             <div class="buttons">
-                <button id="view-btn">👁️ 查看示例图片</button>
+                <button id="view-btn">👁️ 查看随机图片</button>
                 <button id="folder-btn">📂 打开图片文件夹</button>
             </div>
         </div>
@@ -151,25 +151,15 @@
     </footer>
     
     <script>
-        const sampleImages = [
-            '1.jpg',
-            '2.jpg',
-            '3.jpg',
-            '4.jpg',
-            '5.jpg'
-        ];
+        // 当前图片总数
+        const totalImages = 1000;
         
         document.getElementById('view-btn').addEventListener('click', function() {
-            const randomIndex = Math.floor(Math.random() * sampleImages.length);
-            const randomImage = sampleImages[randomIndex];
-            const imageUrl = `https://raw.githubusercontent.com/MCQA2580/1/main/downloaded_images/${randomImage}`;
+            const randomIndex = Math.floor(Math.random() * totalImages) + 1;
+            const randomImage = randomIndex + '.jpg';
+            const imageUrl = 'https://raw.githubusercontent.com/MCQA2580/1/main/downloaded_images/' + randomImage;
             
-            document.getElementById('image-container').innerHTML = `
-                <img id="image" src="${imageUrl}" alt="示例图片">
-                <p style="margin-top: 10px; font-size: 0.9rem; color: #666;">
-                    示例图片：${randomImage}
-                </p>
-            `;
+            document.getElementById('image-container').innerHTML = '<img id="image" src="' + imageUrl + '" alt="随机图片"><p style="margin-top: 10px; font-size: 0.9rem; color: #666;">图片 ' + randomImage + ' (共 ' + totalImages + ' 张)</p>';
         });
         
         document.getElementById('folder-btn').addEventListener('click', function() {
