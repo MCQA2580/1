@@ -151,7 +151,7 @@ const htmlContent = `<!DOCTYPE html>
                 <h3>📁 图片信息</h3>
                 <p>• 部署方式: Cloudflare Workers</p>
                 <p>• 功能: 查看和管理下载的图片</p>
-                <p>• 图片数量: 237 张（持续更新）</p>
+                <p>• 图片数量: 1000 张（持续更新）</p>
             </div>
             
             <div class="image-box">
@@ -174,7 +174,7 @@ const htmlContent = `<!DOCTYPE html>
     
     <script>
         // 当前图片总数（包括后面新加的）
-        const totalImages = 237; // 初始图片数，后续可手动更新
+        const totalImages = 1000; // 初始图片数，后续可手动更新
         
         // 查看随机图片
         document.getElementById('view-btn').addEventListener('click', function() {
