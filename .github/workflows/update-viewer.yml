@@ -1,0 +1,50 @@
+name: Update Image Viewer
+
+on:
+  push:
+    paths:
+      - 'downloaded_images/**'
+      - 'update_viewer.ps1'
+      - '.github/workflows/update-viewer.yml'
+  workflow_dispatch:
+
+jobs:
+  update-viewer:
+    runs-on: self-hosted
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up PowerShell
+        uses: actions/setup-powershell@v3
+        with:
+          pwsh: true
+
+      - name: List files in downloaded_images
+        shell: pwsh
+        run: |
+          Write-Host "Files in downloaded_images folder:"
+          Get-ChildItem -Path .\downloaded_images -Name
+
+      - name: Run update script
+        shell: pwsh
+        run: |
+          Write-Host "Running update script..."
+          .\update_viewer.ps1
+
+      - name: Check for changes
+        shell: pwsh
+        run: |
+          git status
+
+      - name: Commit and push changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: 'Automatically update image viewer samples'
+          add: 'simple_image_viewer.html'
+          committer_name: 'GitHub Actions'
+          committer_email: 'actions@github.com'

@@ -1,0 +1,213 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>绠€鍗曞浘鐗囨煡鐪嬪櫒</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        header {
+            background-color: #3498db;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 20px;
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .image-box {
+            margin: 20px 0;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        
+        #image {
+            max-width: 100%;
+            max-height: 500px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .info {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .buttons {
+            margin: 20px 0;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        #view-btn {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        #view-btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        #folder-btn {
+            background-color: #2ecc71;
+            color: white;
+        }
+        
+        #folder-btn:hover {
+            background-color: #27ae60;
+            transform: translateY(-2px);
+        }
+        
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            margin-top: auto;
+        }
+        
+        a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>绠€鍗曞浘鐗囨煡鐪嬪櫒</h1>
+        <p>鏌ョ湅 downloaded_images 鏂囦欢澶逛腑鐨勫浘鐗?/p>
+    </header>
+    
+    <main>
+        <div class="container">
+            <div class="info">
+                <h3>馃搧 鍥剧墖鏂囦欢澶逛俊鎭?/h3>
+                <p>鈥?鏂囦欢澶? <strong>downloaded_images</strong></p>
+                <p>鈥?鍥剧墖鏁伴噺: <strong>237</strong> 寮?/p>
+                <p>鈥?鏂囦欢鏍煎紡: <strong>JPG</strong></p>
+                <p>鈥?鏂囦欢鍚嶆牸寮? <strong>img_xxxxxxxxxxxx.jpg</strong></p>
+            </div>
+            
+            <div class="image-box">
+                <div id="image-container">
+                    <p>鐐瑰嚮涓嬫柟鎸夐挳鏌ョ湅鍥剧墖</p>
+                    <small>鎴栫洿鎺ユ墦寮€鏂囦欢澶规煡鐪嬫墍鏈夊浘鐗?/small>
+                </div>
+            </div>
+            
+            <div class="buttons">
+                <button id="view-btn">馃憗锔?鏌ョ湅绀轰緥鍥剧墖</button>
+                <button id="folder-btn">馃搨 鎵撳紑鍥剧墖鏂囦欢澶?/button>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <p>漏 2026 绠€鍗曞浘鐗囨煡鐪嬪櫒 | <a href="downloaded_images" target="_blank">鎵撳紑 downloaded_images 鏂囦欢澶?/a></p>
+    </footer>
+    
+    <script>
+        // 绀轰緥鍥剧墖鏂囦欢鍚嶏紙浠庡疄闄呮枃浠朵腑閫夊彇锛?
+        const sampleImages = [
+            'img_05RyoKgZzBvS.jpg',
+            'img_06hhkp4Cozfz.jpg',
+            'img_1a1NdCqnOtU9.jpg',
+            'img_1HGF8CohAx22.jpg',
+            'img_29B4hXBKZubs.jpg'
+        ];
+        
+        // 鏌ョ湅绀轰緥鍥剧墖
+        document.getElementById('view-btn').addEventListener('click', function() {
+            const randomIndex = Math.floor(Math.random() * sampleImages.length);
+            const randomImage = sampleImages[randomIndex];
+            const imageUrl = `downloaded_images/${randomImage}`;
+            
+            const container = document.getElementById('image-container');
+            container.innerHTML = `
+                <img id="image" src="${imageUrl}" alt="绀轰緥鍥剧墖">
+                <p style="margin-top: 10px; font-size: 0.9rem; color: #666;">
+                    绀轰緥鍥剧墖: ${randomImage}
+                </p>
+            `;
+            
+            console.log(`鏄剧ず绀轰緥鍥剧墖: ${randomImage}`);
+        });
+        
+        // 鎵撳紑鍥剧墖鏂囦欢澶?
+        document.getElementById('folder-btn').addEventListener('click', function() {
+            window.open('downloaded_images', '_blank');
+            console.log('鎵撳紑鍥剧墖鏂囦欢澶?);
+        });
+        
+        // 椤甸潰鍔犺浇鏃舵樉绀烘彁绀?
+        window.addEventListener('load', function() {
+            console.log('绠€鍗曞浘鐗囨煡鐪嬪櫒鍔犺浇瀹屾垚');
+            console.log('鍥剧墖鏂囦欢澶? downloaded_images');
+            console.log('绀轰緥鍥剧墖鏁伴噺: ' + sampleImages.length);
+        });
+    </script>
+</body>
+</html>
