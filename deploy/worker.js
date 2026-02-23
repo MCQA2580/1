@@ -179,7 +179,7 @@ const htmlContent = `<!DOCTYPE html>
         // 查看示例图片
         document.getElementById('view-btn').addEventListener('click', function() {
             const randomIndex = Math.floor(Math.random() * totalImages) + 1;
-            const randomImage = `https://raw.githubusercontent.com/MCQA2580/1/main/downloaded_images/${randomIndex}.jpg`;
+            const randomImage = 'https://raw.githubusercontent.com/MCQA2580/1/main/downloaded_images/' + randomIndex + '.jpg';
             
             const container = document.getElementById('image-container');
             container.innerHTML = `
