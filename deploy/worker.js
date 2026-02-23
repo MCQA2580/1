@@ -182,12 +182,8 @@ const htmlContent = `<!DOCTYPE html>
             const randomImage = 'https://raw.githubusercontent.com/MCQA2580/1/main/downloaded_images/' + randomIndex + '.jpg';
             
             const container = document.getElementById('image-container');
-            container.innerHTML = `
-                <img id="image" src="${randomImage}" alt="示例图片">
-                <p style="margin-top: 10px; font-size: 0.9rem; color: #666;">
-                    示例图片 ${randomIndex} (共 ${totalImages} 张)
-                </p>
-            `;
+            container.innerHTML = '<img id="image" src="' + randomImage + '" alt="示例图片"><p style="margin-top: 10px; font-size: 0.9rem; color: #666;">示例图片 ' + randomIndex + ' (共 ' + totalImages + ' 张)</p>';
+
         });
         
         // 打开原始存储
