@@ -20,8 +20,5 @@ format = "service-worker"
 SITE_NAME = "Image Viewer"
 DEBUG = false
 
-# KV命名空间（用于存储图片数据，可选）
-# [[kv_namespaces]]
-# binding = "IMAGES"
-# id = "YOUR_KV_NAMESPACE_ID"
-# preview_id = "YOUR_PREVIEW_KV_NAMESPACE_ID"
+# 禁用遥测（可选）
+send_metrics = false

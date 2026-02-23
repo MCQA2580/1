@@ -10,7 +10,6 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
         body {
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
@@ -19,28 +18,23 @@
             display: flex;
             flex-direction: column;
         }
-        
         header {
             background-color: #3498db;
             color: white;
             padding: 20px;
             text-align: center;
         }
-        
         h1 {
             font-size: 2rem;
             margin-bottom: 10px;
         }
-        
         main {
             flex: 1;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             padding: 20px;
         }
-        
         .container {
             background-color: white;
             border-radius: 10px;
@@ -50,7 +44,6 @@
             width: 100%;
             text-align: center;
         }
-        
         .image-box {
             margin: 20px 0;
             min-height: 400px;
@@ -61,14 +54,12 @@
             border-radius: 5px;
             background-color: #f9f9f9;
         }
-        
         #image {
             max-width: 100%;
             max-height: 500px;
             border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        
         .info {
             margin: 20px 0;
             padding: 15px;
@@ -77,7 +68,6 @@
             font-size: 0.9rem;
             color: #666;
         }
-        
         .buttons {
             margin: 20px 0;
             display: flex;
@@ -85,7 +75,6 @@
             flex-wrap: wrap;
             justify-content: center;
         }
-        
         button {
             padding: 10px 20px;
             border: none;
@@ -95,27 +84,22 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        
         #view-btn {
             background-color: #3498db;
             color: white;
         }
-        
         #view-btn:hover {
             background-color: #2980b9;
             transform: translateY(-2px);
         }
-        
         #folder-btn {
             background-color: #2ecc71;
             color: white;
         }
-        
         #folder-btn:hover {
             background-color: #27ae60;
             transform: translateY(-2px);
         }
-        
         footer {
             background-color: #333;
             color: white;
@@ -123,13 +107,11 @@
             padding: 15px;
             margin-top: auto;
         }
-        
         a {
             color: #3498db;
             text-decoration: none;
             font-weight: bold;
         }
-        
         a:hover {
             text-decoration: underline;
         }
@@ -148,7 +130,6 @@
                 <p>• 文件夹：<strong>downloaded_images</strong></p>
                 <p>• 图片数量：<strong>237</strong> 张</p>
                 <p>• 文件格式：<strong>JPG</strong></p>
-                <p>• 文件命名格式：<strong>img_xxxxxxxxxxxx.jpg</strong></p>
             </div>
             
             <div class="image-box">
@@ -166,47 +147,33 @@
     </main>
     
     <footer>
-        <p>© 2026 简单图片查看器 | <a href="downloaded_images" target="_blank">打开 downloaded_images 文件夹</a></p>
+        <p>© 2026 简单图片查看器 | <a href="https://github.com/MCQA2580/1/tree/main/downloaded_images" target="_blank">打开 downloaded_images 文件夹</a></p>
     </footer>
     
     <script>
-        // 示例图片文件名（从实际文件中选取）
         const sampleImages = [
-            'img_05RyoKgZzBvS.jpg',
-            'img_06hhkp4Cozfz.jpg',
-            'img_1a1NdCqnOtU9.jpg',
-            'img_1HGF8CohAx22.jpg',
-            'img_29B4hXBKZubs.jpg'
+            '1.jpg',
+            '2.jpg',
+            '3.jpg',
+            '4.jpg',
+            '5.jpg'
         ];
         
-        // 查看示例图片
         document.getElementById('view-btn').addEventListener('click', function() {
             const randomIndex = Math.floor(Math.random() * sampleImages.length);
             const randomImage = sampleImages[randomIndex];
-            const imageUrl = `https://raw.githubusercontent.com/MCQA2580/1/main/public/downloaded_images/${randomImage}`;
+            const imageUrl = `https://raw.githubusercontent.com/MCQA2580/1/main/downloaded_images/${randomImage}`;
             
-            const container = document.getElementById('image-container');
-            container.innerHTML = `
+            document.getElementById('image-container').innerHTML = `
                 <img id="image" src="${imageUrl}" alt="示例图片">
                 <p style="margin-top: 10px; font-size: 0.9rem; color: #666;">
                     示例图片：${randomImage}
                 </p>
             `;
-            
-            console.log(`显示示例图片：${randomImage}`);
         });
         
-        // 打开图片文件夹
         document.getElementById('folder-btn').addEventListener('click', function() {
-            window.open('https://github.com/MCQA2580/1/tree/main/public/downloaded_images', '_blank');
-            console.log('打开图片文件夹');
-        });
-        
-        // 页面加载时显示提示
-        window.addEventListener('load', function() {
-            console.log('简单图片查看器加载完成');
-            console.log('图片文件夹：downloaded_images');
-            console.log('示例图片数量：' + sampleImages.length);
+            window.open('https://github.com/MCQA2580/1/tree/main/downloaded_images', '_blank');
         });
     </script>
 </body>

@@ -173,32 +173,26 @@ const htmlContent = `<!DOCTYPE html>
     </footer>
     
     <script>
-        // 示例图片（存储在Workers KV或其他存储中）
-        const sampleImages = [
-            'https://via.placeholder.com/800x600/3498db/ffffff?text=示例图片1',
-            'https://via.placeholder.com/800x600/2ecc71/ffffff?text=示例图片2',
-            'https://via.placeholder.com/800x600/e74c3c/ffffff?text=示例图片3',
-            'https://via.placeholder.com/800x600/f39c12/ffffff?text=示例图片4',
-            'https://via.placeholder.com/800x600/9b59b6/ffffff?text=示例图片5'
-        ];
+        // 当前图片总数（包括后面新加的）
+        const totalImages = 237; // 初始图片数，后续可手动更新
         
         // 查看示例图片
         document.getElementById('view-btn').addEventListener('click', function() {
-            const randomIndex = Math.floor(Math.random() * sampleImages.length);
-            const randomImage = sampleImages[randomIndex];
+            const randomIndex = Math.floor(Math.random() * totalImages) + 1;
+            const randomImage = `https://raw.githubusercontent.com/MCQA2580/1/main/downloaded_images/${randomIndex}.jpg`;
             
             const container = document.getElementById('image-container');
             container.innerHTML = `
                 <img id="image" src="${randomImage}" alt="示例图片">
                 <p style="margin-top: 10px; font-size: 0.9rem; color: #666;">
-                    示例图片 ${randomIndex + 1}
+                    示例图片 ${randomIndex} (共 ${totalImages} 张)
                 </p>
             `;
         });
         
         // 打开原始存储
         document.getElementById('folder-btn').addEventListener('click', function() {
-            // 这里可以设置为实际的图片存储位置
+            // 打开GitHub仓库中的图片文件夹
             window.open('https://github.com/MCQA2580/1/tree/main/downloaded_images', '_blank');
         });
         
