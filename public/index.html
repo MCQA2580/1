@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>绠€鍗曞浘鐗囨煡鐪嬪櫒</title>
+    <title>简单图片查看器</title>
     <style>
         * {
             margin: 0;
@@ -137,40 +137,40 @@
 </head>
 <body>
     <header>
-        <h1>绠€鍗曞浘鐗囨煡鐪嬪櫒</h1>
-        <p>鏌ョ湅 downloaded_images 鏂囦欢澶逛腑鐨勫浘鐗?/p>
+        <h1>简单图片查看器</h1>
+        <p>查看 downloaded_images 文件夹中的图片</p>
     </header>
     
     <main>
         <div class="container">
             <div class="info">
-                <h3>馃搧 鍥剧墖鏂囦欢澶逛俊鎭?/h3>
-                <p>鈥?鏂囦欢澶? <strong>downloaded_images</strong></p>
-                <p>鈥?鍥剧墖鏁伴噺: <strong>237</strong> 寮?/p>
-                <p>鈥?鏂囦欢鏍煎紡: <strong>JPG</strong></p>
-                <p>鈥?鏂囦欢鍚嶆牸寮? <strong>img_xxxxxxxxxxxx.jpg</strong></p>
+                <h3>📁 图片文件夹信息</h3>
+                <p>• 文件夹：<strong>downloaded_images</strong></p>
+                <p>• 图片数量：<strong>237</strong> 张</p>
+                <p>• 文件格式：<strong>JPG</strong></p>
+                <p>• 文件命名格式：<strong>img_xxxxxxxxxxxx.jpg</strong></p>
             </div>
             
             <div class="image-box">
                 <div id="image-container">
-                    <p>鐐瑰嚮涓嬫柟鎸夐挳鏌ョ湅鍥剧墖</p>
-                    <small>鎴栫洿鎺ユ墦寮€鏂囦欢澶规煡鐪嬫墍鏈夊浘鐗?/small>
+                    <p>点击下方按钮查看图片</p>
+                    <small>或直接打开文件夹查看所有图片</small>
                 </div>
             </div>
             
             <div class="buttons">
-                <button id="view-btn">馃憗锔?鏌ョ湅绀轰緥鍥剧墖</button>
-                <button id="folder-btn">馃搨 鎵撳紑鍥剧墖鏂囦欢澶?/button>
+                <button id="view-btn">👁️ 查看示例图片</button>
+                <button id="folder-btn">📂 打开图片文件夹</button>
             </div>
         </div>
     </main>
     
     <footer>
-        <p>漏 2026 绠€鍗曞浘鐗囨煡鐪嬪櫒 | <a href="downloaded_images" target="_blank">鎵撳紑 downloaded_images 鏂囦欢澶?/a></p>
+        <p>© 2026 简单图片查看器 | <a href="downloaded_images" target="_blank">打开 downloaded_images 文件夹</a></p>
     </footer>
     
     <script>
-        // 绀轰緥鍥剧墖鏂囦欢鍚嶏紙浠庡疄闄呮枃浠朵腑閫夊彇锛?
+        // 示例图片文件名（从实际文件中选取）
         const sampleImages = [
             'img_05RyoKgZzBvS.jpg',
             'img_06hhkp4Cozfz.jpg',
@@ -179,7 +179,7 @@
             'img_29B4hXBKZubs.jpg'
         ];
         
-        // 鏌ョ湅绀轰緥鍥剧墖
+        // 查看示例图片
         document.getElementById('view-btn').addEventListener('click', function() {
             const randomIndex = Math.floor(Math.random() * sampleImages.length);
             const randomImage = sampleImages[randomIndex];
@@ -187,26 +187,26 @@
             
             const container = document.getElementById('image-container');
             container.innerHTML = `
-                <img id="image" src="${imageUrl}" alt="绀轰緥鍥剧墖">
+                <img id="image" src="${imageUrl}" alt="示例图片">
                 <p style="margin-top: 10px; font-size: 0.9rem; color: #666;">
-                    绀轰緥鍥剧墖: ${randomImage}
+                    示例图片：${randomImage}
                 </p>
             `;
             
-            console.log(`鏄剧ず绀轰緥鍥剧墖: ${randomImage}`);
+            console.log(`显示示例图片：${randomImage}`);
         });
         
-        // 鎵撳紑鍥剧墖鏂囦欢澶?
+        // 打开图片文件夹
         document.getElementById('folder-btn').addEventListener('click', function() {
             window.open('downloaded_images', '_blank');
-            console.log('鎵撳紑鍥剧墖鏂囦欢澶?);
+            console.log('打开图片文件夹');
         });
         
-        // 椤甸潰鍔犺浇鏃舵樉绀烘彁绀?
+        // 页面加载时显示提示
         window.addEventListener('load', function() {
-            console.log('绠€鍗曞浘鐗囨煡鐪嬪櫒鍔犺浇瀹屾垚');
-            console.log('鍥剧墖鏂囦欢澶? downloaded_images');
-            console.log('绀轰緥鍥剧墖鏁伴噺: ' + sampleImages.length);
+            console.log('简单图片查看器加载完成');
+            console.log('图片文件夹：downloaded_images');
+            console.log('示例图片数量：' + sampleImages.length);
         });
     </script>
 </body>
