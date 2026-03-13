@@ -151,7 +151,7 @@ const htmlContent = `<!DOCTYPE html>
                 <h3>📁 图片信息</h3>
                 <p>• 部署方式: Cloudflare Workers</p>
                 <p>• 功能: 查看和管理下载的图片</p>
-                <p>• 图片数量: 1000 张（持续更新）</p>
+                <p>• 图片数量: 1499 张（images1: 750 张, images2: 749 张）</p>
             </div>
             
             <div class="image-box">
@@ -174,12 +174,13 @@ const htmlContent = `<!DOCTYPE html>
     
     <script>
         // 当前图片总数（包括后面新加的）
-        const totalImages = 1000; // 初始图片数，后续可手动更新
+        const totalImages = 1499; // 初始图片数，后续可手动更新
         
         // 查看随机图片
         document.getElementById('view-btn').addEventListener('click', function() {
             const randomIndex = Math.floor(Math.random() * totalImages) + 1;
-            const randomImage = 'https://raw.githubusercontent.com/MCQA2580/1/main/downloaded_images/' + randomIndex + '.jpg';
+            const folder = randomIndex <= 750 ? 'images1' : 'images2';
+            const randomImage = 'https://raw.githubusercontent.com/MCQA2580/1/main/' + folder + '/' + randomIndex + '.jpg';
             
             const container = document.getElementById('image-container');
             container.innerHTML = '<img id="image" src="' + randomImage + '" alt="随机图片"><p style="margin-top: 10px; font-size: 0.9rem; color: #666;">图片 ' + randomIndex + ' (共 ' + totalImages + ' 张)</p>';
@@ -189,7 +190,7 @@ const htmlContent = `<!DOCTYPE html>
         // 打开原始存储
         document.getElementById('folder-btn').addEventListener('click', function() {
             // 打开GitHub仓库中的图片文件夹
-            window.open('https://github.com/MCQA2580/1/tree/main/downloaded_images', '_blank');
+            window.open('https://github.com/MCQA2580/1/tree/main', '_blank');
         });
         
         // 底部链接

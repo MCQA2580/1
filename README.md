@@ -13,7 +13,8 @@
 ## 项目结构
 
 ```
-├── downloaded_images/   # 图片存储目录（数字命名格式）
+├── images1/             # 图片存储目录1（1.jpg - 750.jpg）
+├── images2/             # 图片存储目录2（751.jpg - 1499.jpg）
 ├── deploy/              # Cloudflare Workers 部署文件
 │   ├── worker.js        # Workers 脚本
 │   ├── package.json     # 依赖配置
@@ -50,20 +51,26 @@
 ## 图片管理
 
 ### 当前状态
-- **图片数量**：1010 张
-- **命名格式**：数字顺序命名（1.jpg, 2.jpg, ..., 1010.jpg）
-- **存储目录**：`downloaded_images/`
+- **图片数量**：1499 张
+- **命名格式**：数字顺序命名（1.jpg, 2.jpg, ..., 1499.jpg）
+- **存储目录**：
+  - `images1/`：1.jpg - 750.jpg
+  - `images2/`：751.jpg - 1499.jpg
 
 ### 添加新图片
 
 1. **下载图片**
-   - 将新图片下载到 `downloaded_images` 目录
+   - 将新图片下载到 `images1` 或 `images2` 目录
    - 确保图片格式为 JPG
 
 2. **重命名图片**
    - 新图片应按照数字顺序命名，例如：
-     - 当前最后一张图片是 `1010.jpg`
-     - 新图片应命名为 `1011.jpg`, `1012.jpg`, 以此类推
+     - 当前最后一张图片是 `1499.jpg`
+     - 新图片应命名为 `1500.jpg`, `1501.jpg`, 以此类推
+     - 根据图片编号选择存储目录：
+       - 1-750: `images1/`
+       - 751-1500: `images2/`
+       - 1501+: 需要创建新的存储目录
 
 3. **更新配置**
    - 编辑 `deploy/worker.js` 文件
@@ -78,7 +85,7 @@
 ### 删除图片
 
 1. **删除图片文件**
-   - 从 `downloaded_images` 目录中删除不需要的图片
+   - 从 `images1` 或 `images2` 目录中删除不需要的图片
 
 2. **重新编号图片**
    - 为了保持数字序列的连续性，重新编号剩余图片
@@ -113,8 +120,10 @@
 
 ### 2. GitHub 原始存储
 
-- **查看所有图片**：`https://github.com/MCQA2580/1/tree/main/downloaded_images`
-- **直接访问单张图片**：`https://raw.githubusercontent.com/MCQA2580/1/main/downloaded_images/1.jpg`
+- **查看所有图片**：`https://github.com/MCQA2580/1/tree/main`
+- **直接访问单张图片**：
+  - 1-750: `https://raw.githubusercontent.com/MCQA2580/1/main/images1/1.jpg`
+  - 751-1499: `https://raw.githubusercontent.com/MCQA2580/1/main/images2/751.jpg`
 
 ## 故障排除
 
@@ -153,6 +162,15 @@
 MIT License
 
 ## 更新日志
+
+### 2026-03-14
+- ✅ 从 https://www.dmoe.cc/random.php 拉取图片，总数达到1499张
+- ✅ 将图片分为两个文件夹存储：
+  - `images2/`：751.jpg - 1499.jpg
+- ✅ 更新 `simple_image_viewer.html`，支持从两个文件夹加载图片
+- ✅ 更新 `deploy/worker.js`，适配新的文件夹结构
+- ✅ 清理下载和重命名脚本
+- ✅ 更新 README.md，反映最新项目状态
 
 ### 2026-03-13
 - ✅ 从 https://www.dmoe.cc/random.php 拉取10张新图片
