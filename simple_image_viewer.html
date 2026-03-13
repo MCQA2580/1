@@ -301,8 +301,8 @@
         <div class="container">
             <div class="info">
                 <h3>📁 图片文件夹信息</h3>
-                <p>• 文件夹：<strong>downloaded_images</strong></p>
-                <p>• 图片数量：<strong>1499</strong> 张</p>
+                <p>• 文件夹：<strong>images1</strong> 和 <strong>images2</strong></p>
+                <p>• 图片数量：<strong>1499</strong> 张（images1: 750 张, images2: 749 张）</p>
                 <p>• 文件格式：<strong>JPG</strong></p>
                 <p>• 命名格式：<strong>1.jpg - 1499.jpg</strong></p>
             </div>
@@ -346,7 +346,7 @@
     </main>
     
     <footer>
-        <p>© 2026 简单图片查看器 | <a href="https://github.com/MCQA2580/1/tree/main/downloaded_images" target="_blank">浏览完整图片集</a></p>
+        <p>© 2026 简单图片查看器 | <a href="https://github.com/MCQA2580/1/tree/main" target="_blank">浏览完整图片集</a></p>
     </footer>
     
     <script>
@@ -361,7 +361,8 @@
         document.getElementById('view-btn').addEventListener('click', function() {
             const randomIndex = Math.floor(Math.random() * totalImages) + 1;
             const randomImage = randomIndex + '.jpg';
-            const imageUrl = 'https://raw.githubusercontent.com/MCQA2580/1/main/downloaded_images/' + randomImage;
+            const folder = randomIndex <= 750 ? 'images1' : 'images2';
+            const imageUrl = 'https://raw.githubusercontent.com/MCQA2580/1/main/' + folder + '/' + randomImage;
             
             // 显示加载状态
             const container = document.getElementById('image-container');
@@ -421,7 +422,7 @@
         
         // 打开图片文件夹
         document.getElementById('folder-btn').addEventListener('click', function() {
-            window.open('https://github.com/MCQA2580/1/tree/main/downloaded_images', '_blank');
+            window.open('https://github.com/MCQA2580/1/tree/main', '_blank');
         });
         
         // 查询指定图片
@@ -435,7 +436,8 @@
                 return;
             }
             
-            const imageUrl = 'https://raw.githubusercontent.com/MCQA2580/1/main/downloaded_images/' + imageNumber + '.jpg';
+            const folder = imageNumber <= 750 ? 'images1' : 'images2';
+            const imageUrl = 'https://raw.githubusercontent.com/MCQA2580/1/main/' + folder + '/' + imageNumber + '.jpg';
             
             // 显示加载状态
             const container = document.getElementById('image-container');
