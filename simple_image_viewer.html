@@ -338,91 +338,6 @@
             margin-bottom: 1.5rem;
         }
 
-        button {
-            padding: 1.2rem 2.5rem;
-            border: none;
-            border-radius: var(--border-radius-md);
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-            min-width: 200px;
-        }
-
-        button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: 0.6s;
-            z-index: -1;
-        }
-
-        button:hover::before {
-            left: 100%;
-        }
-
-        button::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: rgba(255,255,255,0.3);
-            transform: scaleX(0);
-            transform-origin: right;
-            transition: transform 0.3s ease;
-            z-index: -1;
-        }
-
-        button:hover::after {
-            transform: scaleX(1);
-            transform-origin: left;
-        }
-
-        #view-btn {
-            background: linear-gradient(135deg, var(--primary-color) 0%, #2980b9 100%);
-            color: var(--white-color);
-            animation: buttonSlideIn 1s ease-out 0.6s both;
-        }
-
-        #view-btn:hover {
-            background: linear-gradient(135deg, #2980b9 0%, var(--primary-color) 100%);
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
-        }
-
-        #view-btn:active {
-            transform: translateY(-2px) scale(0.98);
-        }
-
-        #folder-btn {
-            background: linear-gradient(135deg, var(--secondary-color) 0%, #27ae60 100%);
-            color: var(--white-color);
-            animation: buttonSlideIn 1s ease-out 0.8s both;
-        }
-
-        #folder-btn:hover {
-            background: linear-gradient(135deg, #27ae60 0%, var(--secondary-color) 100%);
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
-        }
-
-        #folder-btn:active {
-            transform: translateY(-2px) scale(0.98);
-        }
-
         @keyframes buttonSlideIn {
             from {
                 opacity: 0;
@@ -432,16 +347,6 @@
                 opacity: 1;
                 transform: translateY(0) scale(1);
             }
-        }
-
-        /* 按钮图标动画 */
-        button span:first-child {
-            font-size: 1.2rem;
-            transition: var(--transition);
-        }
-
-        button:hover span:first-child {
-            transform: scale(1.2) rotate(10deg);
         }
 
         /* 页脚样式 */
@@ -662,14 +567,102 @@
             </div>
             
             <div class="buttons">
-                <button id="view-btn">
-                    <span>👁️</span>
+                <div id="view-btn" style="background: linear-gradient(135deg, var(--primary-color) 0%, #2980b9 100%); color: var(--white-color); padding: 1.2rem 2.5rem; border: none; border-radius: var(--border-radius-md); font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: var(--transition); display: flex; align-items: center; gap: 0.8rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1); position: relative; overflow: hidden; z-index: 1; min-width: 200px; user-select: none; animation: buttonSlideIn 1s ease-out 0.6s both;">
+                    <span style="font-size: 1.2rem; transition: var(--transition);">👁️</span>
                     <span>查看随机图片</span>
-                </button>
-                <button id="folder-btn">
-                    <span>📂</span>
+                    <style>
+                        #view-btn:hover {
+                            background: linear-gradient(135deg, #2980b9 0%, var(--primary-color) 100%);
+                            transform: translateY(-5px) scale(1.05);
+                            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+                        }
+                        #view-btn:active {
+                            transform: translateY(-2px) scale(0.98);
+                        }
+                        #view-btn:hover span:first-child {
+                            transform: scale(1.2) rotate(10deg);
+                        }
+                        #view-btn::before {
+                            content: '';
+                            position: absolute;
+                            top: 0;
+                            left: -100%;
+                            width: 100%;
+                            height: 100%;
+                            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+                            transition: 0.6s;
+                            z-index: -1;
+                        }
+                        #view-btn:hover::before {
+                            left: 100%;
+                        }
+                        #view-btn::after {
+                            content: '';
+                            position: absolute;
+                            bottom: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 4px;
+                            background: rgba(255,255,255,0.3);
+                            transform: scaleX(0);
+                            transform-origin: right;
+                            transition: transform 0.3s ease;
+                            z-index: -1;
+                        }
+                        #view-btn:hover::after {
+                            transform: scaleX(1);
+                            transform-origin: left;
+                        }
+                    </style>
+                </div>
+                <div id="folder-btn" style="background: linear-gradient(135deg, var(--secondary-color) 0%, #27ae60 100%); color: var(--white-color); padding: 1.2rem 2.5rem; border: none; border-radius: var(--border-radius-md); font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: var(--transition); display: flex; align-items: center; gap: 0.8rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1); position: relative; overflow: hidden; z-index: 1; min-width: 200px; user-select: none; animation: buttonSlideIn 1s ease-out 0.8s both;">
+                    <span style="font-size: 1.2rem; transition: var(--transition);">📂</span>
                     <span>浏览全部图片</span>
-                </button>
+                    <style>
+                        #folder-btn:hover {
+                            background: linear-gradient(135deg, #27ae60 0%, var(--secondary-color) 100%);
+                            transform: translateY(-5px) scale(1.05);
+                            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+                        }
+                        #folder-btn:active {
+                            transform: translateY(-2px) scale(0.98);
+                        }
+                        #folder-btn:hover span:first-child {
+                            transform: scale(1.2) rotate(10deg);
+                        }
+                        #folder-btn::before {
+                            content: '';
+                            position: absolute;
+                            top: 0;
+                            left: -100%;
+                            width: 100%;
+                            height: 100%;
+                            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+                            transition: 0.6s;
+                            z-index: -1;
+                        }
+                        #folder-btn:hover::before {
+                            left: 100%;
+                        }
+                        #folder-btn::after {
+                            content: '';
+                            position: absolute;
+                            bottom: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 4px;
+                            background: rgba(255,255,255,0.3);
+                            transform: scaleX(0);
+                            transform-origin: right;
+                            transition: transform 0.3s ease;
+                            z-index: -1;
+                        }
+                        #folder-btn:hover::after {
+                            transform: scaleX(1);
+                            transform-origin: left;
+                        }
+                    </style>
+                </div>
             </div>
             
             <div style="margin-top: 2rem; max-width: 500px; margin-left: auto; margin-right: auto;">
@@ -679,10 +672,54 @@
                     </h3>
                     <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
                         <input type="number" id="image-number" min="1" max="1928" placeholder="输入图片编号 (1-1928)" style="flex: 1; min-width: 200px; padding: 0.8rem 1.2rem; border: 2px solid var(--gray-color); border-radius: var(--border-radius-md); font-size: 1rem; transition: var(--transition);">
-                        <button id="search-btn" style="background: linear-gradient(135deg, var(--accent-color) 0%, #e67e22 100%); color: var(--white-color); padding: 0.8rem 1.5rem; border: none; border-radius: var(--border-radius-md); font-size: 1rem; font-weight: 600; cursor: pointer; transition: var(--transition); display: flex; align-items: center; gap: 0.5rem; min-width: 120px; justify-content: center;">
-                            <span>🔎</span>
+                        <div id="search-btn" style="background: linear-gradient(135deg, var(--accent-color) 0%, #e67e22 100%); color: var(--white-color); padding: 0.8rem 1.5rem; border: none; border-radius: var(--border-radius-md); font-size: 1rem; font-weight: 600; cursor: pointer; transition: var(--transition); display: flex; align-items: center; gap: 0.5rem; min-width: 120px; justify-content: center; user-select: none; position: relative; overflow: hidden; z-index: 1;">
+                            <span style="font-size: 1.2rem; transition: var(--transition);">🔎</span>
                             <span>查询</span>
-                        </button>
+                            <style>
+                                #search-btn:hover {
+                                    background: linear-gradient(135deg, #e67e22 0%, var(--accent-color) 100%);
+                                    transform: translateY(-3px) scale(1.03);
+                                    box-shadow: 0 6px 20px rgba(243, 156, 18, 0.4);
+                                }
+                                #search-btn:active {
+                                    transform: translateY(-1px) scale(0.98);
+                                }
+                                #search-btn:hover span:first-child {
+                                    transform: scale(1.2) rotate(10deg);
+                                }
+                                #search-btn::before {
+                                    content: '';
+                                    position: absolute;
+                                    top: 0;
+                                    left: -100%;
+                                    width: 100%;
+                                    height: 100%;
+                                    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+                                    transition: 0.6s;
+                                    z-index: -1;
+                                }
+                                #search-btn:hover::before {
+                                    left: 100%;
+                                }
+                                #search-btn::after {
+                                    content: '';
+                                    position: absolute;
+                                    bottom: 0;
+                                    left: 0;
+                                    width: 100%;
+                                    height: 4px;
+                                    background: rgba(255,255,255,0.3);
+                                    transform: scaleX(0);
+                                    transform-origin: right;
+                                    transition: transform 0.3s ease;
+                                    z-index: -1;
+                                }
+                                #search-btn:hover::after {
+                                    transform: scaleX(1);
+                                    transform-origin: left;
+                                }
+                            </style>
+                        </div>
                     </div>
                     <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--gray-color); text-align: center;">
                         输入图片编号后点击查询按钮，即可查看对应图片
