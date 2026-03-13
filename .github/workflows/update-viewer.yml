@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - 'downloaded_images/**'
-      - 'update_viewer.ps1'
+      - 'deploy/update_image_viewer.ps1'
       - '.github/workflows/update-viewer.yml'
   workflow_dispatch:
 
