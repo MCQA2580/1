@@ -17,8 +17,7 @@
 ├── deploy/              # Cloudflare Workers 部署文件
 │   ├── worker.js        # Workers 脚本
 │   ├── package.json     # 依赖配置
-│   ├── wrangler.toml    # Wrangler 配置
-│   └── update_image_viewer.ps1  # 图片更新脚本
+│   └── wrangler.toml    # Wrangler 配置
 ├── .github/workflows/   # GitHub Actions 工作流
 │   └── update-viewer.yml  # 自动更新工作流
 ├── simple_image_viewer.html  # 本地图片查看器
@@ -50,6 +49,11 @@
 
 ## 图片管理
 
+### 当前状态
+- **图片数量**：1928 张
+- **命名格式**：数字顺序命名（1.jpg, 2.jpg, ..., 1928.jpg）
+- **存储目录**：`downloaded_images/`
+
 ### 添加新图片
 
 1. **下载图片**
@@ -58,13 +62,14 @@
 
 2. **重命名图片**
    - 新图片应按照数字顺序命名，例如：
-     - 如果当前最后一张图片是 `237.jpg`
-     - 新图片应命名为 `238.jpg`, `239.jpg`, 以此类推
+     - 当前最后一张图片是 `1928.jpg`
+     - 新图片应命名为 `1929.jpg`, `1930.jpg`, 以此类推
 
 3. **更新配置**
    - 编辑 `deploy/worker.js` 文件
    - 更新 `totalImages` 变量的值为新的图片总数
-   - 例如：`const totalImages = 240;`（如果添加了3张新图片）
+   - 编辑 `simple_image_viewer.html` 文件
+   - 更新 `totalImages` 变量和显示的图片数量信息
 
 4. **提交更改**
    - 提交并推送所有更改到 GitHub
@@ -76,12 +81,14 @@
    - 从 `downloaded_images` 目录中删除不需要的图片
 
 2. **重新编号图片**
-   - 为了保持数字序列的连续性，建议重新编号剩余图片
+   - 为了保持数字序列的连续性，重新编号剩余图片
    - 例如：如果删除了 `5.jpg`，将 `6.jpg` 重命名为 `5.jpg`，以此类推
 
 3. **更新配置**
    - 编辑 `deploy/worker.js` 文件
    - 更新 `totalImages` 变量的值为新的图片总数
+   - 编辑 `simple_image_viewer.html` 文件
+   - 更新 `totalImages` 变量和显示的图片数量信息
 
 4. **提交更改**
    - 提交并推送所有更改到 GitHub
@@ -146,6 +153,13 @@
 MIT License
 
 ## 更新日志
+
+### 2026-03-13
+- ✅ 清理无效图片，保留1928张有效图片
+- ✅ 更新图片查看器配置，反映最新图片数量
+- ✅ 优化项目结构，移除冗余脚本文件
+- ✅ 完善图片管理流程文档
+- ✅ 确保所有配置文件同步更新
 
 ### 2026-02-23
 - ✅ 图片重命名为数字格式（1.jpg, 2.jpg, ...）
