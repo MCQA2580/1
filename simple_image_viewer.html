@@ -554,9 +554,9 @@
             <div class="info">
                 <h3>📁 图片文件夹信息</h3>
                 <p>• 文件夹：<strong>downloaded_images</strong></p>
-                <p>• 图片数量：<strong>1928</strong> 张</p>
+                <p>• 图片数量：<strong>1000</strong> 张</p>
                 <p>• 文件格式：<strong>JPG</strong></p>
-                <p>• 命名格式：<strong>1.jpg - 1928.jpg</strong></p>
+                <p>• 命名格式：<strong>1.jpg - 1000.jpg</strong></p>
             </div>
             
             <div class="image-box">
@@ -671,7 +671,7 @@
                         🔍 查询指定图片
                     </h3>
                     <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
-                        <input type="number" id="image-number" min="1" max="1928" placeholder="输入图片编号 (1-1928)" style="flex: 1; min-width: 200px; padding: 0.8rem 1.2rem; border: 2px solid var(--gray-color); border-radius: var(--border-radius-md); font-size: 1rem; transition: var(--transition);">
+                        <input type="number" id="image-number" min="1" max="1000" placeholder="输入图片编号 (1-1000)" style="flex: 1; min-width: 200px; padding: 0.8rem 1.2rem; border: 2px solid var(--gray-color); border-radius: var(--border-radius-md); font-size: 1rem; transition: var(--transition);">
                         <div id="search-btn" style="background: linear-gradient(135deg, var(--accent-color) 0%, #e67e22 100%); color: var(--white-color); padding: 0.8rem 1.5rem; border: none; border-radius: var(--border-radius-md); font-size: 1rem; font-weight: 600; cursor: pointer; transition: var(--transition); display: flex; align-items: center; gap: 0.5rem; min-width: 120px; justify-content: center; user-select: none; position: relative; overflow: hidden; z-index: 1;">
                             <span style="font-size: 1.2rem; transition: var(--transition);">🔎</span>
                             <span>查询</span>
@@ -735,7 +735,7 @@
     
     <script>
         // 当前图片总数
-        const totalImages = 1928;
+        const totalImages = 1000;
         // 已查看图片集合
         const viewedImages = new Set();
         // 加载超时时间（毫秒）
