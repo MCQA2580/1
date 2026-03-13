@@ -671,6 +671,24 @@
                     <span>浏览全部图片</span>
                 </button>
             </div>
+            
+            <div style="margin-top: 2rem; max-width: 500px; margin-left: auto; margin-right: auto;">
+                <div style="background: linear-gradient(135deg, rgba(248,249,250,0.9) 0%, rgba(233,236,239,0.9) 100%); border-radius: var(--border-radius-md); padding: 1.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-left: 4px solid var(--accent-color);">
+                    <h3 style="color: var(--accent-color); margin-bottom: 1rem; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; font-weight: 700;">
+                        🔍 查询指定图片
+                    </h3>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
+                        <input type="number" id="image-number" min="1" max="1928" placeholder="输入图片编号 (1-1928)" style="flex: 1; min-width: 200px; padding: 0.8rem 1.2rem; border: 2px solid var(--gray-color); border-radius: var(--border-radius-md); font-size: 1rem; transition: var(--transition);">
+                        <button id="search-btn" style="background: linear-gradient(135deg, var(--accent-color) 0%, #e67e22 100%); color: var(--white-color); padding: 0.8rem 1.5rem; border: none; border-radius: var(--border-radius-md); font-size: 1rem; font-weight: 600; cursor: pointer; transition: var(--transition); display: flex; align-items: center; gap: 0.5rem; min-width: 120px; justify-content: center;">
+                            <span>🔎</span>
+                            <span>查询</span>
+                        </button>
+                    </div>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--gray-color); text-align: center;">
+                        输入图片编号后点击查询按钮，即可查看对应图片
+                    </p>
+                </div>
+            </div>
         </div>
     </main>
     
@@ -752,6 +770,86 @@
         // 打开图片文件夹
         document.getElementById('folder-btn').addEventListener('click', function() {
             window.open('https://github.com/MCQA2580/1/tree/main/downloaded_images', '_blank');
+        });
+        
+        // 查询指定图片
+        function searchImage() {
+            const input = document.getElementById('image-number');
+            const imageNumber = parseInt(input.value);
+            
+            if (isNaN(imageNumber) || imageNumber < 1 || imageNumber > totalImages) {
+                alert('请输入有效的图片编号 (1-' + totalImages + ')');
+                input.focus();
+                return;
+            }
+            
+            const imageUrl = 'https://raw.githubusercontent.com/MCQA2580/1/main/downloaded_images/' + imageNumber + '.jpg';
+            
+            // 显示加载状态
+            const container = document.getElementById('image-container');
+            container.innerHTML = `
+                <div class="image-loading">
+                    <div class="loading"></div>
+                    <p>图片加载中...</p>
+                    <small>正在获取图片 ${imageNumber}...</small>
+                </div>
+            `;
+            
+            // 创建图片元素
+            const img = new Image();
+            img.id = 'image';
+            img.src = imageUrl;
+            img.alt = '图片 ' + imageNumber;
+            
+            // 设置加载超时
+            const timeoutId = setTimeout(() => {
+                if (!img.complete) {
+                    container.innerHTML = `
+                        <div class="fade-in">
+                            <p style="color: #e74c3c; font-weight: 600;">⏰ 图片加载超时</p>
+                            <p style="color: #666; margin-top: 0.5rem;">网络可能较慢，请稍后重试</p>
+                        </div>
+                    `;
+                }
+            }, LOAD_TIMEOUT);
+            
+            img.onload = function() {
+                clearTimeout(timeoutId);
+                // 图片加载完成
+                viewedImages.add(imageNumber);
+                container.innerHTML = `
+                    <div class="fade-in">
+                        <img id="image" src="${imageUrl}" alt="图片 ${imageNumber}">
+                        <p style="margin-top: 1rem; font-size: 1rem; color: #666; font-weight: 500;">
+                            图片 ${imageNumber}.jpg <span style="opacity: 0.7;">(共 ${totalImages} 张)</span>
+                        </p>
+                        <p style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--primary-color);">
+                            已探索 ${viewedImages.size} 张不同图片
+                        </p>
+                    </div>
+                `;
+            };
+            
+            img.onerror = function() {
+                clearTimeout(timeoutId);
+                // 图片加载失败
+                container.innerHTML = `
+                    <div class="fade-in">
+                        <p style="color: #e74c3c; font-weight: 600;">😞 图片加载失败</p>
+                        <p style="color: #666; margin-top: 0.5rem;">请检查图片编号是否正确</p>
+                    </div>
+                `;
+            };
+        }
+        
+        // 绑定查询按钮事件
+        document.getElementById('search-btn').addEventListener('click', searchImage);
+        
+        // 绑定输入框回车键事件
+        document.getElementById('image-number').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchImage();
+            }
         });
         
         // 键盘快捷键
