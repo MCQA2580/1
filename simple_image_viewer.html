@@ -139,6 +139,20 @@
             border-radius: var(--border-radius-md);
             box-shadow: var(--shadow-md);
             border: 3px solid var(--white-color);
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        
+        #image:hover {
+            transform: scale(1.02);
+        }
+        
+        /* 图片加载优化 */
+        #image.lazy-loading {
+            opacity: 0;
+        }
+        
+        #image.loaded {
+            opacity: 1;
         }
 
         /* 按钮样式 */
@@ -356,13 +370,162 @@
         const viewedImages = new Set();
         // 加载超时时间（毫秒）
         const LOAD_TIMEOUT = 10000;
+        // 图片缓存
+        const imageCache = new Map();
+        // 预加载的图片
+        let preloadedImage = null;
+        // 最大重试次数
+        const MAX_RETRIES = 3;
+        
+        // 初始化缓存
+        function initCache() {
+            try {
+                const cached = localStorage.getItem('imageCache');
+                if (cached) {
+                    const parsed = JSON.parse(cached);
+                    parsed.forEach((url, index) => {
+                        imageCache.set(index, url);
+                    });
+                }
+                const viewed = localStorage.getItem('viewedImages');
+                if (viewed) {
+                    const parsed = JSON.parse(viewed);
+                    parsed.forEach(index => viewedImages.add(index));
+                }
+            } catch (e) {
+                console.log('缓存初始化失败:', e);
+            }
+        }
+        
+        // 保存缓存
+        function saveCache() {
+            try {
+                const cacheArray = Array.from(imageCache.entries());
+                localStorage.setItem('imageCache', JSON.stringify(cacheArray));
+                const viewedArray = Array.from(viewedImages);
+                localStorage.setItem('viewedImages', JSON.stringify(viewedArray));
+            } catch (e) {
+                console.log('缓存保存失败:', e);
+            }
+        }
+        
+        // 获取随机图片索引
+        function getRandomImageIndex() {
+            let randomIndex;
+            do {
+                randomIndex = Math.floor(Math.random() * totalImages) + 1;
+            } while (viewedImages.size < totalImages && viewedImages.has(randomIndex));
+            return randomIndex;
+        }
+        
+        // 获取图片URL
+        function getImageUrl(imageIndex) {
+            const folder = imageIndex <= 750 ? 'images1' : 'images2';
+            return 'https://raw.githubusercontent.com/MCQA2580/1/main/' + folder + '/' + imageIndex + '.jpg';
+        }
+        
+        // 预加载图片
+        function preloadImage() {
+            const randomIndex = getRandomImageIndex();
+            const imageUrl = getImageUrl(randomIndex);
+            
+            const img = new Image();
+            img.src = imageUrl;
+            img.onload = function() {
+                preloadedImage = { index: randomIndex, url: imageUrl };
+            };
+        }
+        
+        // 加载图片函数（带重试机制）
+        function loadImage(imageIndex, container, isSearch = false) {
+            let retries = 0;
+            let imageUrl = getImageUrl(imageIndex);
+            
+            // 检查缓存
+            if (imageCache.has(imageIndex)) {
+                imageUrl = imageCache.get(imageIndex);
+            }
+            
+            function attemptLoad() {
+                // 创建图片元素
+                const img = new Image();
+                img.id = 'image';
+                img.className = 'lazy-loading';
+                img.src = imageUrl;
+                img.alt = isSearch ? '图片 ' + imageIndex : '随机图片';
+                
+                // 设置加载超时
+                const timeoutId = setTimeout(() => {
+                    if (!img.complete) {
+                        handleError('timeout');
+                    }
+                }, LOAD_TIMEOUT);
+                
+                img.onload = function() {
+                    clearTimeout(timeoutId);
+                    // 图片加载完成
+                    viewedImages.add(imageIndex);
+                    imageCache.set(imageIndex, imageUrl);
+                    saveCache();
+                    
+                    container.innerHTML = `
+                        <div class="fade-in">
+                            <img id="image" src="${imageUrl}" alt="${isSearch ? '图片 ' + imageIndex : '随机图片'}" class="loaded">
+                            <p style="margin-top: 1rem; font-size: 1rem; color: #666; font-weight: 500;">
+                                图片 ${imageIndex}.jpg <span style="opacity: 0.7;">(共 ${totalImages} 张)</span>
+                            </p>
+                            <p style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--primary-color);">
+                                已探索 ${viewedImages.size} 张不同图片
+                            </p>
+                        </div>
+                    `;
+                };
+                
+                img.onerror = function() {
+                    clearTimeout(timeoutId);
+                    handleError('error');
+                };
+            }
+            
+            function handleError(errorType) {
+                retries++;
+                if (retries <= MAX_RETRIES) {
+                    // 重试加载
+                    setTimeout(() => {
+                        attemptLoad();
+                    }, 1000 * retries); // 指数退避
+                } else {
+                    // 达到最大重试次数
+                    container.innerHTML = `
+                        <div class="fade-in">
+                            <p style="color: #e74c3c; font-weight: 600;">😞 图片加载失败</p>
+                            <p style="color: #666; margin-top: 0.5rem;">已尝试 ${MAX_RETRIES} 次，网络可能不稳定</p>
+                            <p style="color: #666; margin-top: 0.5rem;">请稍后再试</p>
+                        </div>
+                    `;
+                    // 预加载下一张
+                    preloadImage();
+                }
+            }
+            
+            attemptLoad();
+        }
         
         // 查看随机图片
         document.getElementById('view-btn').addEventListener('click', function() {
-            const randomIndex = Math.floor(Math.random() * totalImages) + 1;
-            const randomImage = randomIndex + '.jpg';
-            const folder = randomIndex <= 750 ? 'images1' : 'images2';
-            const imageUrl = 'https://raw.githubusercontent.com/MCQA2580/1/main/' + folder + '/' + randomImage;
+            let randomIndex, imageUrl;
+            
+            // 使用预加载的图片或获取新图片
+            if (preloadedImage) {
+                randomIndex = preloadedImage.index;
+                preloadedImage = null;
+                // 立即预加载下一张
+                preloadImage();
+            } else {
+                randomIndex = getRandomImageIndex();
+                // 预加载下一张
+                preloadImage();
+            }
             
             // 显示加载状态
             const container = document.getElementById('image-container');
@@ -373,52 +536,14 @@
                 </div>
             `;
             
-            // 创建图片元素
-            const img = new Image();
-            img.id = 'image';
-            img.src = imageUrl;
-            img.alt = '随机图片';
-            
-            // 设置加载超时
-            const timeoutId = setTimeout(() => {
-                if (!img.complete) {
-                    container.innerHTML = `
-                        <div class="fade-in">
-                            <p style="color: #e74c3c; font-weight: 600;">⏰ 图片加载超时</p>
-                            <p style="color: #666; margin-top: 0.5rem;">网络可能较慢，请稍后重试</p>
-                        </div>
-                    `;
-                }
-            }, LOAD_TIMEOUT);
-            
-            img.onload = function() {
-                clearTimeout(timeoutId);
-                // 图片加载完成
-                viewedImages.add(randomIndex);
-                container.innerHTML = `
-                    <div class="fade-in">
-                        <img id="image" src="${imageUrl}" alt="随机图片">
-                        <p style="margin-top: 1rem; font-size: 1rem; color: #666; font-weight: 500;">
-                            图片 ${randomImage} <span style="opacity: 0.7;">(共 ${totalImages} 张)</span>
-                        </p>
-                        <p style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--primary-color);">
-                            已探索 ${viewedImages.size} 张不同图片
-                        </p>
-                    </div>
-                `;
-            };
-            
-            img.onerror = function() {
-                clearTimeout(timeoutId);
-                // 图片加载失败
-                container.innerHTML = `
-                    <div class="fade-in">
-                        <p style="color: #e74c3c; font-weight: 600;">😞 图片加载失败</p>
-                        <p style="color: #666; margin-top: 0.5rem;">请点击按钮重试</p>
-                    </div>
-                `;
-            };
+            // 加载图片
+            loadImage(randomIndex, container);
         });
+        
+        // 初始化
+        initCache();
+        // 预加载第一张图片
+        preloadImage();
         
         // 打开图片文件夹
         document.getElementById('folder-btn').addEventListener('click', function() {
@@ -436,9 +561,6 @@
                 return;
             }
             
-            const folder = imageNumber <= 750 ? 'images1' : 'images2';
-            const imageUrl = 'https://raw.githubusercontent.com/MCQA2580/1/main/' + folder + '/' + imageNumber + '.jpg';
-            
             // 显示加载状态
             const container = document.getElementById('image-container');
             container.innerHTML = `
@@ -449,51 +571,8 @@
                 </div>
             `;
             
-            // 创建图片元素
-            const img = new Image();
-            img.id = 'image';
-            img.src = imageUrl;
-            img.alt = '图片 ' + imageNumber;
-            
-            // 设置加载超时
-            const timeoutId = setTimeout(() => {
-                if (!img.complete) {
-                    container.innerHTML = `
-                        <div class="fade-in">
-                            <p style="color: #e74c3c; font-weight: 600;">⏰ 图片加载超时</p>
-                            <p style="color: #666; margin-top: 0.5rem;">网络可能较慢，请稍后重试</p>
-                        </div>
-                    `;
-                }
-            }, LOAD_TIMEOUT);
-            
-            img.onload = function() {
-                clearTimeout(timeoutId);
-                // 图片加载完成
-                viewedImages.add(imageNumber);
-                container.innerHTML = `
-                    <div class="fade-in">
-                        <img id="image" src="${imageUrl}" alt="图片 ${imageNumber}">
-                        <p style="margin-top: 1rem; font-size: 1rem; color: #666; font-weight: 500;">
-                            图片 ${imageNumber}.jpg <span style="opacity: 0.7;">(共 ${totalImages} 张)</span>
-                        </p>
-                        <p style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--primary-color);">
-                            已探索 ${viewedImages.size} 张不同图片
-                        </p>
-                    </div>
-                `;
-            };
-            
-            img.onerror = function() {
-                clearTimeout(timeoutId);
-                // 图片加载失败
-                container.innerHTML = `
-                    <div class="fade-in">
-                        <p style="color: #e74c3c; font-weight: 600;">😞 图片加载失败</p>
-                        <p style="color: #666; margin-top: 0.5rem;">请检查图片编号是否正确</p>
-                    </div>
-                `;
-            };
+            // 加载图片（使用带重试机制的函数）
+            loadImage(imageNumber, container, true);
         }
         
         // 绑定查询按钮事件
