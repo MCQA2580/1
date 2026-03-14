@@ -291,12 +291,7 @@ const htmlContent = `<!DOCTYPE html>
             
             // 显示加载状态
             const container = document.getElementById('image-container');
-            container.innerHTML = `
-                <div class="image-loading">
-                    <div class="loading"></div>
-                    <p>图片加载中...</p>
-                </div>
-            `;
+            container.innerHTML = '<div class="image-loading"><div class="loading"></div><p>图片加载中...</p></div>';
             
             // 检查缓存
             if (imageCache.has(randomIndex)) {
@@ -310,14 +305,9 @@ const htmlContent = `<!DOCTYPE html>
             img.alt = '随机图片';
             
             // 设置加载超时
-            const timeoutId = setTimeout(() => {
+            const timeoutId = setTimeout(function() {
                 if (!img.complete) {
-                    container.innerHTML = `
-                        <div class="fade-in">
-                            <p style="color: #e74c3c; font-weight: 600;">⏰ 图片加载超时</p>
-                            <p style="color: #666; margin-top: 0.5rem;">网络可能较慢，请稍后重试</p>
-                        </div>
-                    `;
+                    container.innerHTML = '<div class="fade-in"><p style="color: #e74c3c; font-weight: 600;">⏰ 图片加载超时</p><p style="color: #666; margin-top: 0.5rem;">网络可能较慢，请稍后重试</p></div>';
                     // 预加载下一张
                     preloadImage();
                 }
@@ -329,25 +319,13 @@ const htmlContent = `<!DOCTYPE html>
                 imageCache.set(randomIndex, imageUrl);
                 saveCache();
                 
-                container.innerHTML = `
-                    <div class="fade-in">
-                        <img id="image" src="${imageUrl}" alt="随机图片">
-                        <p style="margin-top: 10px; font-size: 0.9rem; color: #666;">
-                            图片 ${randomIndex} (共 ${totalImages} 张)
-                        </p>
-                    </div>
-                `;
+                container.innerHTML = '<div class="fade-in"><img id="image" src="' + imageUrl + '" alt="随机图片"><p style="margin-top: 10px; font-size: 0.9rem; color: #666;">图片 ' + randomIndex + ' (共 ' + totalImages + ' 张)</p></div>';
             };
             
             img.onerror = function() {
                 clearTimeout(timeoutId);
                 // 图片加载失败
-                container.innerHTML = `
-                    <div class="fade-in">
-                        <p style="color: #e74c3c; font-weight: 600;">😞 图片加载失败</p>
-                        <p style="color: #666; margin-top: 0.5rem;">请点击按钮重试</p>
-                    </div>
-                `;
+                container.innerHTML = '<div class="fade-in"><p style="color: #e74c3c; font-weight: 600;">😞 图片加载失败</p><p style="color: #666; margin-top: 0.5rem;">请点击按钮重试</p></div>';
                 // 预加载下一张
                 preloadImage();
             };
